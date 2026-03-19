@@ -15,6 +15,9 @@ const Chess = lazy(() => import('@/pages/Chess'));
 const EvidenceVault = lazy(() => import('@/pages/EvidenceVault'));
 const CyberNews = lazy(() => import('@/pages/CyberNews'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
+const Portfolio = lazy(() => import('@/pages/Portfolio'));
+const StockPicker = lazy(() => import('@/pages/StockPicker'));
+const News = lazy(() => import('@/pages/News'));
 
 // All sub-pages should use lazy loading
 const routerList: RouteObject[] = [
@@ -112,6 +115,31 @@ const routerList: RouteObject[] = [
     element: (
       <React.Suspense>
         <Dashboard />
+      </React.Suspense>
+    ),
+  },
+  {
+    path: '/portfolio',
+    element: (
+      <React.Suspense>
+        <Portfolio />
+      </React.Suspense>
+    ),
+  },
+  // ========== QuantTerminal Phase 2 ==========
+  {
+    path: '/stockPicker',
+    element: (
+      <React.Suspense>
+        <StockPicker />
+      </React.Suspense>
+    ),
+  },
+  {
+    path: '/news',
+    element: (
+      <React.Suspense>
+        <News />
       </React.Suspense>
     ),
   },

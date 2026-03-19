@@ -1,0 +1,331 @@
+/**
+ * QuantTerminal - Portfolio Styles
+ */
+
+.container {
+  padding: 20px;
+  min-height: 100vh;
+  background: hsl(220, 18%, 8%);
+  color: hsl(210, 20%, 90%);
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  font-weight: 700;
+  color: hsl(210, 20%, 90%);
+  
+  svg {
+    color: hsl(199, 89%, 48%);
+  }
+}
+
+.subtitle {
+  font-size: 12px;
+  color: hsl(215, 15%, 50%);
+  margin-top: 4px;
+}
+
+// Stats Grid
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+  
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.statCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: hsl(220, 18%, 12%);
+  border: 1px solid hsl(220, 13%, 18%);
+  border-radius: 12px;
+  transition: border-color 0.2s;
+  
+  &:hover {
+    border-color: hsl(199, 89%, 48%);
+  }
+}
+
+.statIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: hsl(199, 89%, 48%);
+  border-radius: 10px;
+  color: white;
+}
+
+.statContent {
+  flex: 1;
+}
+
+.statLabel {
+  font-size: 11px;
+  color: hsl(215, 15%, 50%);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statValue {
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'SF Mono', 'Monaco', monospace;
+  color: hsl(210, 20%, 90%);
+  margin-top: 2px;
+}
+
+.statSub {
+  font-size: 12px;
+  font-family: 'SF Mono', 'Monaco', monospace;
+  margin-top: 2px;
+  
+  &.positive {
+    color: hsl(142, 70%, 45%);
+  }
+  
+  &.negative {
+    color: hsl(0, 72%, 55%);
+  }
+}
+
+// Content Grid
+.contentGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  
+  @media (min-width: 1024px) {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.holdingsSection {
+  min-width: 0;
+}
+
+.chartsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+// Section Header
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid hsl(220, 13%, 18%);
+  background: hsl(220, 18%, 12%);
+  border-radius: 12px 12px 0 0;
+  
+  h2 {
+    font-size: 14px;
+    font-weight: 600;
+    color: hsl(210, 20%, 90%);
+    margin: 0;
+  }
+  
+  svg {
+    color: hsl(199, 89%, 48%);
+  }
+}
+
+// Holdings Table
+.holdingsTable {
+  background: hsl(220, 18%, 12%);
+  border: 1px solid hsl(220, 13%, 18%);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  tr {
+    background: hsl(220, 18%, 10%);
+  }
+  
+  th {
+    padding: 10px 12px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: hsl(215, 15%, 50%);
+    white-space: nowrap;
+  }
+}
+
+tbody {
+  tr {
+    border-top: 1px solid hsl(220, 13%, 18%);
+    transition: background-color 0.15s;
+    
+    &:hover {
+      background: hsl(220, 18%, 15%);
+    }
+  }
+  
+  td {
+    padding: 12px;
+    font-size: 13px;
+  }
+}
+
+.thLeft {
+  text-align: left;
+}
+
+.thRight {
+  text-align: right;
+}
+
+.tdLeft {
+  text-align: left;
+}
+
+.tdRight {
+  text-align: right;
+  font-family: 'SF Mono', 'Monaco', monospace;
+}
+
+.muted {
+  color: hsl(215, 15%, 50%);
+}
+
+.stockName {
+  font-weight: 500;
+  color: hsl(210, 20%, 90%);
+  font-size: 13px;
+}
+
+.stockCode {
+  font-size: 11px;
+  color: hsl(215, 15%, 50%);
+  font-family: 'SF Mono', 'Monaco', monospace;
+  margin-top: 2px;
+}
+
+.pnlValue {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.pnlPct {
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.positive {
+  color: hsl(142, 70%, 45%);
+}
+
+.negative {
+  color: hsl(0, 72%, 55%);
+}
+
+.weightCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.weightBar {
+  width: 48px;
+  height: 6px;
+  background: hsl(220, 13%, 18%);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.weightFill {
+  height: 100%;
+  background: hsl(199, 89%, 48%);
+  border-radius: 3px;
+}
+
+.weightValue {
+  font-size: 11px;
+  color: hsl(215, 15%, 50%);
+  min-width: 32px;
+}
+
+// Charts Section
+.pnlChart {
+  background: hsl(220, 18%, 12%);
+  border: 1px solid hsl(220, 13%, 18%);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.chartContainer {
+  height: 240px;
+  padding: 16px;
+}
+
+.allocationChart {
+  background: hsl(220, 18%, 12%);
+  border: 1px solid hsl(220, 13%, 18%);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.pieContainer {
+  height: 160px;
+  padding: 16px;
+}
+
+.allocationLegend {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  padding: 0 16px 16px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.legendName {
+  font-size: 11px;
+  color: hsl(215, 15%, 50%);
+}
+
+.legendValue {
+  font-size: 11px;
+  font-family: 'SF Mono', 'Monaco', monospace;
+  color: hsl(210, 20%, 90%);
+  margin-left: auto;
+}

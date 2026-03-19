@@ -7,11 +7,20 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { 
-  TrendingUp, TrendingDown, Stock, BarChart3, 
-  DollarSign, Percent, Activity, Clock, RefreshCw
+  TrendingUp, TrendingDown, BarChart3, 
+  DollarSign, Percent, Activity, Clock, RefreshCw,
+  ArrowUpRight, ArrowDownRight, TrendingUp as Stock
 } from 'lucide-react';
+import { 
+  AreaChart, Area, XAxis, YAxis, ResponsiveContainer, 
+  Tooltip, PieChart, Pie, Cell 
+} from 'recharts';
 import { initVibeApp, AppLifecycle } from '@gui/vibe-container';
 import { reportLifecycle } from '@/lib';
+import { 
+  mockIndices, mockStocks, mockSectors, 
+  mockPortfolioSummary, generateTrendData, generateTrendDataDown 
+} from '@/lib/mock-data';
 import styles from './index.module.scss';
 
 // ============ Constants ============
@@ -48,6 +57,10 @@ interface SectorData {
   change_percent: number;
   stocks: StockQuote[];
 }
+
+// 时间周期选项
+const TIME_PERIODS = ['1D', '1W', '1M', '3M', '1Y'];
+type TimePeriod = typeof TIME_PERIODS[number];
 
 // 自选股列表
 const WATCHLIST_STOCKS = [
@@ -98,6 +111,154 @@ const fetchSector = async (sectorName: string): Promise<SectorData | null> => {
 
 // ============ 组件 ============
 
+// K线/走势图表组件
+const StockChart: React.FC = () => {
+  const [period, setPeriod] = useState<TimePeriod>('1D');
+  const chartData = generateTrendData(20, 3200);
+
+  return (
+    <div className={styles.chartCard}>
+      <div className={styles.chartHeader}>
+        <h2>上证指数走势</h2>
+        <div className={styles.periodTabs}>
+          {TIME_PERIODS.map((p) => (
+            <button
+              key={p}
+              className={`${styles.periodTab} ${period === p ? styles.active : ''}`}
+              onClick={() => setPeriod(p)}
+            >
+              {p}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className={styles.chartContainer}>
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart data={chartData}>
+            <defs>
+              <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="hsl(142, 70%, 45%)" stopOpacity={0.3} />
+                <stop offset="100%" stopColor="hsl(142, 70%, 45%)" stopOpacity={0} />
+              </linearGradient>
+            </defs>
+            <XAxis dataKey="time" hide />
+            <YAxis hide domain={['dataMin - 10', 'dataMax + 10']} />
+            <Tooltip
+              contentStyle={{
+                background: "hsl(220, 18%, 10%)",
+                border: "1px solid hsl(220, 13%, 18%)",
+                borderRadius: "6px",
+                fontSize: "12px",
+                color: "hsl(210, 20%, 90%)",
+              }}
+              formatter={(value: number) => [value.toFixed(2), "指数"]}
+            />
+            <Area 
+              type="monotone" 
+              dataKey="value" 
+              stroke="hsl(142, 70%, 45%)" 
+              strokeWidth={2} 
+              fill="url(#greenGrad)" 
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
+};
+
+// 资产概览组件
+const PortfolioOverview: React.FC = () => {
+  const summary = mockPortfolioSummary;
+  const colors = [
+    "hsl(199, 89%, 48%)", 
+    "hsl(142, 70%, 45%)", 
+    "hsl(280, 65%, 60%)", 
+    "hsl(38, 92%, 50%)"
+  ];
+
+  return (
+    <div className={styles.portfolioCard}>
+      <h2>资产概览</h2>
+      <div className={styles.portfolioSummary}>
+        <div className={styles.totalAssets}>
+          ¥{summary.totalAssets.toLocaleString()}
+        </div>
+        <div className={`${styles.todayPnl} ${summary.todayPnl >= 0 ? styles.positive : styles.negative}`}>
+          今日 {summary.todayPnl >= 0 ? "+" : ""}¥{summary.todayPnl.toLocaleString()}
+          ({summary.todayPnlPct >= 0 ? "+" : ""}{summary.todayPnlPct}%)
+        </div>
+      </div>
+      <div className={styles.pieChart}>
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={summary.allocation}
+              cx="50%"
+              cy="50%"
+              innerRadius={35}
+              outerRadius={55}
+              paddingAngle={2}
+              dataKey="value"
+            >
+              {summary.allocation.map((_, i) => (
+                <Cell key={i} fill={colors[i % 4]} />
+              ))}
+            </Pie>
+            <Tooltip
+              contentStyle={{
+                background: "hsl(220, 18%, 10%)",
+                border: "1px solid hsl(220, 13%, 18%)",
+                borderRadius: "6px",
+                fontSize: "12px",
+                color: "hsl(210, 20%, 90%)",
+              }}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+      <div className={styles.allocationLegend}>
+        {summary.allocation.map((a, i) => (
+          <div key={a.name} className={styles.legendItem}>
+            <div className={styles.legendDot} style={{ background: colors[i % 4] }} />
+            <span className={styles.legendName}>{a.name}</span>
+            <span className={styles.legendValue}>{a.value}%</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// 迷你Sparkline组件
+const MiniSparkline: React.FC<{ up: boolean }> = ({ up }) => {
+  const data = Array.from({ length: 10 }, (_, i) => ({
+    v: 50 + (up ? 1 : -1) * i * 2 + Math.random() * 10,
+  }));
+  
+  return (
+    <div className={styles.sparkline}>
+      <ResponsiveContainer width="100%" height="100%">
+        <AreaChart data={data}>
+          <defs>
+            <linearGradient id={up ? "sparkUp" : "sparkDown"} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={up ? "hsl(142,70%,45%)" : "hsl(0,72%,55%)"} stopOpacity={0.3} />
+              <stop offset="100%" stopColor={up ? "hsl(142,70%,45%)" : "hsl(0,72%,55%)"} stopOpacity={0} />
+            </linearGradient>
+          </defs>
+          <Area 
+            type="monotone" 
+            dataKey="v" 
+            stroke={up ? "hsl(142,70%,45%)" : "hsl(0,72%,55%)"} 
+            strokeWidth={1.5} 
+            fill={`url(#${up ? "sparkUp" : "sparkDown"})`} 
+          />
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
+  );
+};
+
 const StockCard: React.FC<{ stock: StockQuote }> = ({ stock }) => {
   const isUp = stock.change >= 0;
   
@@ -141,9 +302,8 @@ const MarketOverview: React.FC<{ indices: IndexQuote[] }> = ({ indices }) => {
     return () => clearInterval(timer);
   }, []);
   
-  const shIndex = indices.find(i => i.code === '000001');
-  const szIndex = indices.find(i => i.code === '399001');
-  const cyIndex = indices.find(i => i.code === '399006');
+  // 使用mock数据作为后备
+  const displayIndices = indices.length > 0 ? indices : mockIndices;
   
   return (
     <div className={styles.marketOverview}>
@@ -158,78 +318,25 @@ const MarketOverview: React.FC<{ indices: IndexQuote[] }> = ({ indices }) => {
       </div>
       
       <div className={styles.indexGrid}>
-        {shIndex && (
-          <div className={`${styles.indexCard} ${shIndex.change >= 0 ? styles.up : styles.down}`}>
-            <div className={styles.indexName}>上证指数</div>
-            <div className={styles.indexPrice}>{shIndex.price.toFixed(2)}</div>
+        {displayIndices.slice(0, 6).map((idx) => (
+          <div 
+            key={idx.name} 
+            className={`${styles.indexCard} ${idx.change >= 0 ? styles.up : styles.down}`}
+          >
+            <div className={styles.indexHeader}>
+              <span className={styles.indexName}>{idx.name}</span>
+              {idx.change >= 0 ? (
+                <ArrowUpRight className={styles.indexIcon} />
+              ) : (
+                <ArrowDownRight className={styles.indexIcon} />
+              )}
+            </div>
+            <div className={styles.indexPrice}>{idx.value.toLocaleString()}</div>
             <div className={styles.indexChange}>
-              {shIndex.change >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
-              {shIndex.change >= 0 ? '+' : ''}{shIndex.change.toFixed(2)} ({shIndex.change >= 0 ? '+' : ''}{shIndex.change_percent.toFixed(2)}%)
+              {idx.change >= 0 ? '+' : ''}{idx.change.toFixed(2)} ({idx.change >= 0 ? '+' : ''}{idx.change.toFixed(2)}%)
             </div>
           </div>
-        )}
-        
-        {szIndex && (
-          <div className={`${styles.indexCard} ${szIndex.change >= 0 ? styles.up : styles.down}`}>
-            <div className={styles.indexName}>深证成指</div>
-            <div className={styles.indexPrice}>{szIndex.price.toFixed(2)}</div>
-            <div className={styles.indexChange}>
-              {szIndex.change >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
-              {szIndex.change >= 0 ? '+' : ''}{szIndex.change.toFixed(2)} ({szIndex.change >= 0 ? '+' : ''}{szIndex.change_percent.toFixed(2)}%)
-            </div>
-          </div>
-        )}
-
-        {cyIndex && (
-          <div className={`${styles.indexCard} ${cyIndex.change >= 0 ? styles.up : styles.down}`}>
-            <div className={styles.indexName}>创业板指</div>
-            <div className={styles.indexPrice}>{cyIndex.price.toFixed(2)}</div>
-            <div className={styles.indexChange}>
-              {cyIndex.change >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
-              {cyIndex.change >= 0 ? '+' : ''}{cyIndex.change.toFixed(2)} ({cyIndex.change >= 0 ? '+' : ''}{cyIndex.change_percent.toFixed(2)}%)
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-};
-
-const PortfolioSummary: React.FC = () => {
-  // 模拟资产数据
-  const total = 600000;
-  const position = 330000;
-  const cash = 270000;
-  const positionRatio = (position / total * 100).toFixed(1);
-  const todayPL = 1250;
-  
-  return (
-    <div className={styles.portfolio}>
-      <div className={styles.portfolioTitle}>
-        <DollarSign size={18} />
-        资产概要
-      </div>
-      <div className={styles.portfolioGrid}>
-        <div className={styles.portfolioItem}>
-          <span className={styles.portfolioLabel}>总资产</span>
-          <span className={styles.portfolioValue}>{(total / 10000).toFixed(1)}万</span>
-        </div>
-        <div className={styles.portfolioItem}>
-          <span className={styles.portfolioLabel}>持仓市值</span>
-          <span className={styles.portfolioValue}>{(position / 10000).toFixed(1)}万</span>
-        </div>
-        <div className={styles.portfolioItem}>
-          <span className={styles.portfolioLabel}>现金余额</span>
-          <span className={styles.portfolioValue}>{(cash / 10000).toFixed(1)}万</span>
-        </div>
-        <div className={styles.portfolioItem}>
-          <span className={styles.portfolioLabel}>持仓仓位</span>
-          <span className={styles.portfolioValue}>{positionRatio}%</span>
-        </div>
-      </div>
-      <div className={`${styles.todayPL} ${todayPL >= 0 ? styles.up : styles.down}`}>
-        <Activity size={16} />
-        今日 {todayPL >= 0 ? '盈利' : '亏损'} {Math.abs(todayPL).toFixed(2)} 元
+        ))}
       </div>
     </div>
   );
@@ -287,15 +394,13 @@ export default function DashboardApp() {
   const loadData = useCallback(async () => {
     setLoading(true);
     try {
-      // 获取指数数据
+      // 尝试获取真实API数据，如果失败则使用mock数据
       const indicesData = await fetchIndices();
       setIndices(indicesData);
       
-      // 获取自选股数据
       const stocksData = await fetchStocks(WATCHLIST_STOCKS);
       setWatchlistStocks(stocksData);
       
-      // 获取板块数据
       const sectorPromises = HOT_SECTORS.map(sector => fetchSector(sector));
       const sectorData = await Promise.all(sectorPromises);
       setSectors(sectorData.filter((s): s is SectorData => s !== null));
@@ -323,6 +428,17 @@ export default function DashboardApp() {
     };
   }, [loadData]);
 
+  // 使用mock数据作为后备显示
+  const displayStocks = watchlistStocks.length > 0 ? watchlistStocks : mockStocks.map(s => ({
+    ...s,
+    volume: parseFloat(s.volume) * 100000000,
+    amount: parseFloat(s.volume) * 100000000,
+    high: s.price * 1.02,
+    low: s.price * 0.98,
+    open_price: s.price * 0.99,
+    pre_close: s.price * 0.98
+  } as StockQuote));
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -343,21 +459,83 @@ export default function DashboardApp() {
       
       <MarketOverview indices={indices} />
       
-      <PortfolioSummary />
+      {/* K线图表 + 资产概览 */}
+      <div className={styles.chartRow}>
+        <StockChart />
+        <PortfolioOverview />
+      </div>
       
+      {/* 自选股列表 */}
       <div className={styles.stockList}>
         <div className={styles.sectionTitle}>
           <Stock size={18} />
           自选股票
+          <span className={styles.stockCount}>{mockStocks.length} 只</span>
         </div>
-        <div className={styles.stockGrid}>
-          {watchlistStocks.map(stock => (
-            <StockCard key={stock.code} stock={stock} />
-          ))}
+        <div className={styles.stockTable}>
+          <table>
+            <thead>
+              <tr>
+                <th className={styles.thLeft}>代码/名称</th>
+                <th className={styles.thRight}>最新价</th>
+                <th className={styles.thRight}>涨跌幅</th>
+                <th className={styles.thRight}>成交额</th>
+                <th className={styles.thRight}>市盈率</th>
+                <th className={styles.thRight}>走势</th>
+              </tr>
+            </thead>
+            <tbody>
+              {mockStocks.map((s) => (
+                <tr key={s.code}>
+                  <td className={styles.tdLeft}>
+                    <div className={styles.stockName}>{s.name}</div>
+                    <div className={styles.stockCode}>{s.code}</div>
+                  </td>
+                  <td className={styles.tdRight}>{s.price.toFixed(2)}</td>
+                  <td className={styles.tdRight}>
+                    <span className={`${styles.changeTag} ${s.change >= 0 ? styles.up : styles.down}`}>
+                      {s.change >= 0 ? "+" : ""}{s.change.toFixed(2)}%
+                    </span>
+                  </td>
+                  <td className={`${styles.tdRight} ${styles.muted}`}>{s.volume}</td>
+                  <td className={`${styles.tdRight} ${styles.muted}`}>{s.pe}</td>
+                  <td className={styles.tdRight}>
+                    <MiniSparkline up={s.change >= 0} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
       
-      <SectorSection sectors={sectors} />
+      {/* 热门板块 */}
+      <div className={styles.sectorSection}>
+        <div className={styles.sectionTitle}>
+          <BarChart3 size={18} />
+          热门板块
+          <span className={styles.stockCount}>今日排行</span>
+        </div>
+        <div className={styles.sectorList}>
+          {mockSectors.map((sec, i) => (
+            <div key={sec.name} className={styles.sectorItem}>
+              <span className={`${styles.sectorRank} ${i < 3 ? styles.topRank : ''}`}>
+                {i + 1}
+              </span>
+              <span className={styles.sectorName}>{sec.name}</span>
+              <span className={`${styles.sectorChange} ${sec.change >= 0 ? styles.up : styles.down}`}>
+                {sec.change >= 0 ? "+" : ""}{sec.change.toFixed(2)}%
+              </span>
+              <div className={styles.sectorBar}>
+                <div 
+                  className={`${styles.sectorBarFill} ${sec.change >= 0 ? styles.up : styles.down}`}
+                  style={{ width: `${Math.min(Math.abs(sec.change) * 15, 100)}%` }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

@@ -7,6 +7,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
+      '@gui/vibe-container': resolve(__dirname, '../../packages/vibe-container'),
       '@gui': resolve(__dirname, './src/lib'),
     },
   },

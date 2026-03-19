@@ -1,0 +1,377 @@
+// News App Styles - 量化风格深色主题
+
+.container {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  background: linear-gradient(135deg, #0a0a0f 0%, #12121a 100%);
+  color: #e5e5e5;
+  overflow-y: auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.header {
+  margin-bottom: 24px;
+  
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+    
+    svg {
+      color: #00d4aa;
+    }
+  }
+  
+  .subtitle {
+    font-size: 14px;
+    color: #888;
+    margin-top: 4px;
+    padding-left: 36px;
+  }
+}
+
+// Sentiment Grid
+.sentimentGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.sentimentCard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  transition: all 0.2s;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.sentimentIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+}
+
+.sentimentInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.sentimentLabel {
+  font-size: 12px;
+  color: #888;
+}
+
+.sentimentCount {
+  font-size: 24px;
+  font-weight: 700;
+  font-family: 'SF Mono', 'Monaco', monospace;
+}
+
+// Sentiment Colors
+.positive {
+  .sentimentIcon {
+    background: rgba(0, 200, 83, 0.15);
+    color: #00c853;
+  }
+  .sentimentCount {
+    color: #00c853;
+  }
+}
+
+.negative {
+  .sentimentIcon {
+    background: rgba(255, 82, 82, 0.15);
+    color: #ff5252;
+  }
+  .sentimentCount {
+    color: #ff5252;
+  }
+}
+
+.neutral {
+  .sentimentIcon {
+    background: rgba(255, 255, 255, 0.1);
+    color: #888;
+  }
+  .sentimentCount {
+    color: #888;
+  }
+}
+
+// Main Content Layout
+.mainContent {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 20px;
+  
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// News Section
+.newsSection {
+  min-width: 0;
+}
+
+// Tag Filter
+.tagFilter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.tagBtn {
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  color: #888;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+  
+  &.active {
+    background: rgba(0, 212, 170, 0.15);
+    border-color: rgba(0, 212, 170, 0.4);
+    color: #00d4aa;
+  }
+}
+
+// News List
+.newsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.newsCard {
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  transition: all 0.2s;
+  cursor: pointer;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(0, 212, 170, 0.3);
+    
+    .newsTitle {
+      color: #00d4aa;
+    }
+    
+    .newsLink {
+      opacity: 1;
+    }
+  }
+}
+
+.newsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.sentimentBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  
+  &.positive {
+    background: rgba(0, 200, 83, 0.15);
+    color: #00c853;
+  }
+  
+  &.negative {
+    background: rgba(255, 82, 82, 0.15);
+    color: #ff5252;
+  }
+  
+  &.neutral {
+    background: rgba(255, 255, 255, 0.1);
+    color: #888;
+  }
+}
+
+.newsMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: #666;
+}
+
+.newsTitle {
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  line-height: 1.5;
+  margin: 0 0 12px 0;
+  transition: color 0.2s;
+}
+
+.newsFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.newsTags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.newsTag {
+  padding: 3px 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  font-size: 11px;
+  color: #888;
+}
+
+.newsLink {
+  color: #666;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+// Sidebar
+.sidebar {
+  @media (max-width: 1024px) {
+    display: none;
+  }
+}
+
+// Hot Topics
+.hotTopics {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.hotHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  
+  svg {
+    color: #ff6b35;
+  }
+  
+  h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    margin: 0;
+  }
+}
+
+.topicList {
+  padding: 8px 0;
+}
+
+.topicItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  transition: background-color 0.15s;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.topicRank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  
+  &.topRank {
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8f5e 100%);
+    color: #000;
+  }
+}
+
+.topicTag {
+  flex: 1;
+  font-size: 13px;
+  color: #fff;
+}
+
+.topicHeat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-family: 'SF Mono', 'Monaco', monospace;
+}
+
+.trendUp {
+  color: #00c853;
+}
+
+.trendDown {
+  color: #ff5252;
+}
+
+.trendStable {
+  color: #888;
+}
+
+// Empty State
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #666;
+  
+  .emptyIcon {
+    margin-bottom: 16px;
+    opacity: 0.3;
+  }
+  
+  p {
+    font-size: 14px;
+  }
+}
