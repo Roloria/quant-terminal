@@ -1,0 +1,6 @@
+{
+  "buildCommand": "cd apps/webuiapps && pnpm install && pnpm build",
+  "outputDirectory": "apps/webuiapps/dist",
+  "installCommand": "pnpm install",
+  "framework": "vite"
+}
