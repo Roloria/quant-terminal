@@ -1,6 +1,6 @@
 {
-  "buildCommand": "cd apps/webuiapps && pnpm install && pnpm build",
+  "buildCommand": "cd apps/webuiapps && npm install && npm run build",
   "outputDirectory": "apps/webuiapps/dist",
-  "installCommand": "pnpm install",
+  "installCommand": "npm install",
   "framework": "vite"
 }
