@@ -148,6 +148,17 @@ const APP_STATIC_REGISTRY: AppStaticDef[] = [
     color: '#FAEA5F',
     defaultSize: { width: 1100, height: 750 },
   },
+  // ========== QuantTerminal Apps ==========
+  {
+    appId: 100,
+    appName: 'dashboard',
+    route: '/dashboard',
+    displayName: 'Dashboard',
+    sourceDir: 'Dashboard',
+    icon: 'BarChart3',
+    color: '#00d4aa',
+    defaultSize: { width: 1200, height: 800 },
+  },
 ];
 
 // OS actions are built-in system actions, not from meta.yaml

@@ -69,7 +69,7 @@
     "sass": "^1.75.0",
     "turbo": "^2",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "vite": "^4.5.14"
   },
   "dependencies": {
     "@gui/vibe-container": "workspace:*",

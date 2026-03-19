@@ -1,220 +1,66 @@
-# VibeApps
+# QuantTerminal - 浏览器版量化投资操作系统
 
-[中文](./README_zh.md) | English
+> 基于 OpenRoom 开发的个人量化投资工作台
 
-> Imagine a desktop that lives in your browser — and an AI that knows how to use every app on it.
+## 🎯 项目目标
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
+打造一个浏览器端的量化投资操作系统，通过 AI Agent 实现自然语言操作股票分析、量化回测、组合管理等功能。
 
-**[Website](https://www.openroom.ai)** · **[X / Twitter](https://x.com/openroom_ai_)**
+## 📚 技术栈
 
+- React 18 + TypeScript + Vite
+- Tailwind CSS
+- Monorepo (pnpm + Turborepo)
+- AkShare (A股数据)
+- IndexedDB (本地存储)
 
-## What is VibeApps?
+## 🛠️ 开发状态
 
-VibeApps brings a full desktop experience into your browser — windows you can drag and resize, apps you can open side by side, all wrapped in a clean macOS-inspired interface. But what makes it different is the **AI Agent** sitting inside.
+### Phase 1: 基础框架搭建中...
 
-Instead of clicking through menus, just tell it what you want:
+- [x] 克隆 OpenRoom 项目
+- [ ] 定制金融主题 UI
+- [ ] 搭建数据层
+- [ ] 开发核心应用
 
-> *"Play some jazz"* — and the Music app starts playing.
->
-> *"Write a diary entry about today's hiking trip"* — Diary opens, a new entry appears.
->
-> *"Let's play chess"* — the board is ready.
+## 📁 项目结构
 
-The Agent doesn't just launch apps — it **operates** them. It reads data, triggers actions, and updates state, all through a structured Action system that every app speaks.
+```
+quant-terminal/
+├── apps/webuiapps/       # 主桌面应用
+│   └── src/
+│       ├── pages/        # 各种应用
+│       │   ├── Dashboard/   # 行情看板
+│       │   ├── StockPicker/ # 选股器
+│       │   ├── Portfolio/   # 组合管理
+│       │   └── ...
+│       ├── components/   # 共享组件
+│       └── lib/         # 核心 SDK
+└── packages/
+    └── vibe-container/  # iframe 通信
+```
 
-Everything runs locally in your browser. No backend, no accounts, no setup headaches. Your data stays in IndexedDB, right where it belongs.
-
-## Built-in Apps
-
-Out of the box, you get a suite of apps ready to explore:
-
-| App | Description |
-|-----|-------------|
-| 🎵 Music | Full-featured player with playlists, playback controls, and album art |
-| ♟️ Chess | Classic chess with complete rule enforcement |
-| ⚫ Gomoku | Five-in-a-row — simple rules, deep strategy |
-| 🃏 FreeCell | The solitaire game that's all skill, no luck |
-| 📧 Email | Inbox, sent, drafts — a familiar email experience |
-| 📔 Diary | Journal with mood tracking to capture your days |
-| 🐦 Twitter | A social feed you actually control |
-| 📷 Album | Browse and organize your photo collections |
-| 📰 CyberNews | Stay informed with a curated news aggregator |
-
-Each app is fully integrated with the AI Agent — meaning you can interact with any of them through natural language.
-
-## Getting Started
-
-### Prerequisites
-
-| Tool | Version | Check | Install |
-|------|---------|-------|---------|
-| **Node.js** | 18+ | `node -v` | [nodejs.org](https://nodejs.org/) |
-| **pnpm** | 9+ | `pnpm -v` | `npm install -g pnpm@9` |
-
-> **In China?** Uncomment the mirror lines in `.npmrc` for faster downloads via npmmirror.
-
-### Up and Running in 60 Seconds
+## 🚀 快速开始
 
 ```bash
-# Clone & enter the project
-git clone https://github.com/MiniMax-AI/OpenRoom.git
-cd OpenRoom
-
-# Install dependencies
+# 安装依赖
 pnpm install
 
-# (Optional) Set up environment variables
-cp apps/webuiapps/.env.example apps/webuiapps/.env
-
-# Launch
+# 启动开发
 pnpm dev
 ```
 
-Open `http://localhost:3000` — you'll see a desktop with app icons. **Double-click** to open any app.
+## 📱 规划中的应用
 
-### Meet the AI Agent (In-App Chat)
+| 应用 | 功能 |
+|------|------|
+| Dashboard | 实时行情、资产概览 |
+| StockPicker | 条件选股、财务筛选 |
+| Portfolio | 持仓管理、风险分析 |
+| Backtest | 策略回测 |
+| News | 舆情监控 |
+| Screener | 板块监控 |
 
-Click the **chat icon** in the bottom-right corner. A panel slides open — that's your Agent.
+---
 
-Type naturally: *"play the next song"*, *"show me my emails"*, *"start a new chess game"*. The Agent figures out which app to talk to, what action to take, and makes it happen.
-
-> **Note:** You'll need an LLM API key. Configure it in the Chat Panel settings.
->
-> This chat panel is for **using** existing apps. To **create** new apps, see the [Vibe Workflow](#build-your-own-apps--just-describe-them) section below — that runs in Claude Code CLI.
-
-## Build Your Own Apps — Just Describe Them
-
-This is where it gets interesting. With the **Vibe Workflow**, you can generate a complete, fully-integrated app just by describing what you want. No boilerplate, no scaffolding — [Claude Code](https://docs.anthropic.com/en/docs/claude-code) handles the entire process.
-
-> **Important:** The Vibe Workflow runs in **Claude Code (CLI terminal)**, not in the browser's chat panel. The in-app chat panel is for operating existing apps; creating new apps happens in your development environment.
-
-### Create from Scratch
-
-```bash
-/vibe WeatherApp Create a weather dashboard with 5-day forecasts and temperature charts
-```
-
-Behind the scenes, the workflow runs through **6 stages** — each one building on the last:
-
-```
-Requirement Analysis   →  What exactly are we building?
-Architecture Design    →  Components, data models, state shape
-Task Planning          →  Breaking it down into implementable chunks
-Code Generation        →  Writing the actual React + TypeScript code
-Asset Generation       →  Creating icons and images
-Project Integration    →  Registering the app so it shows up on the desktop
-```
-
-When it's done, your new app is live — complete with AI Agent integration.
-
-### Evolve Existing Apps
-
-Already have an app but want more? Describe the change:
-
-```bash
-/vibe MusicApp Add a lyrics panel that shows synced lyrics during playback
-```
-
-This triggers a focused **4-stage change workflow**: Impact Analysis → Planning → Implementation → Verification.
-
-### Resume or Replay
-
-```bash
-# Pick up where you left off
-/vibe MyApp
-
-# Jump to a specific stage
-/vibe MyApp --from=04-codegen
-```
-
-## Under the Hood
-
-### Project Layout
-
-```
-OpenRoom/
-├── apps/webuiapps/              # The main desktop application
-│   └── src/
-│       ├── components/          # Shell, window manager, chat panel
-│       ├── lib/                 # Core SDK — file API, actions, app registry
-│       ├── pages/               # Where each app lives
-│       └── routers/             # Route definitions
-├── packages/
-│   └── vibe-container/          # iframe communication SDK (stub in open-source mode)
-├── .claude/                     # AI workflow engine
-│   ├── commands/vibe.md         # Workflow entry point
-│   ├── workflow/                # Stage definitions & rules
-│   └── rules/                   # Code generation constraints
-└── .github/workflows/           # CI pipeline
-```
-
-> **Note on `vibe-container`:** In the open-source standalone version, the real iframe SDK is replaced by a local mock (`src/lib/vibeContainerMock.ts`) that uses IndexedDB for storage and a local event bus for Agent communication. The package under `packages/vibe-container/` provides type definitions and the client-side SDK interface. See its [README](./packages/vibe-container/README.md) for details.
-
-### Anatomy of an App
-
-Every app follows the same structure — consistent, predictable, easy to navigate:
-
-```
-pages/MusicApp/
-├── components/         # UI building blocks
-├── data/               # Seed data (JSON)
-├── store/              # State management (Context + Reducer)
-├── actions/            # How the AI Agent talks to this app
-│   └── constants.ts    # APP_ID + action type definitions
-├── i18n/               # Translations (en.ts + zh.ts)
-├── meta/               # Metadata for the Vibe workflow
-│   ├── meta_cn/        # guide.md + meta.yaml (Chinese)
-│   └── meta_en/        # guide.md + meta.yaml (English)
-├── index.tsx           # Entry point
-├── types.ts            # TypeScript definitions
-└── index.module.scss   # Scoped styles
-```
-
-## Development
-
-| Command | Description |
-|---------|-------------|
-| `pnpm dev` | Start dev server → `http://localhost:3000` |
-| `pnpm build` | Production build |
-| `pnpm run lint` | Lint + auto-fix |
-| `pnpm run pretty` | Format with Prettier |
-| `pnpm clean` | Clean build artifacts |
-
-## Tech Stack
-
-| | |
-|---|---|
-| **Framework** | React 18 + TypeScript + Vite |
-| **Styling** | Tailwind CSS + CSS Modules + Design Tokens |
-| **Icons** | Lucide React |
-| **State** | React Context + Reducer |
-| **Storage** | IndexedDB (standalone) / Cloud NAS (production) |
-| **i18n** | i18next + react-i18next |
-| **Monorepo** | pnpm workspaces + Turborepo |
-| **CI** | GitHub Actions |
-
-## Environment Variables
-
-```bash
-cp apps/webuiapps/.env.example apps/webuiapps/.env
-```
-
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `CDN_PREFIX` | No | CDN prefix for static assets |
-| `VITE_RUM_SITE` | No | RUM monitoring endpoint |
-| `VITE_RUM_CLIENT_TOKEN` | No | RUM client token |
-| `SENTRY_AUTH_TOKEN` | No | Sentry auth token (enables error tracking when set) |
-| `SENTRY_ORG` | No | Sentry organization slug |
-| `SENTRY_PROJECT` | No | Sentry project slug |
-
-All optional. The app runs fine without any of them.
-
-## Contributing
-
-We'd love your help. Whether it's fixing a bug, building a new app, or improving docs — check out [CONTRIBUTING.md](./CONTRIBUTING.md) to get started.
-
-## License
-
-[MIT](LICENSE) — Copyright (c) 2025 MiniMax
+*Powered by AI + Quant*

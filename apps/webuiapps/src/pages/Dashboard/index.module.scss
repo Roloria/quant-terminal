@@ -1,0 +1,353 @@
+// Dashboard App Styles - 量化风格深色主题
+
+.container {
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  background: linear-gradient(135deg, #0a0a0f 0%, #12121a 100%);
+  color: #e5e5e5;
+  overflow-y: auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.header {
+  margin-bottom: 24px;
+  
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+    
+    svg {
+      color: #00d4aa;
+    }
+  }
+  
+  .subtitle {
+    font-size: 14px;
+    color: #888;
+    margin-top: 4px;
+    padding-left: 36px;
+  }
+}
+
+// Market Overview
+.marketOverview {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.marketHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  
+  .clockIcon {
+    color: #00d4aa;
+  }
+  
+  .time {
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+  }
+  
+  .date {
+    font-size: 14px;
+    color: #666;
+    margin-left: auto;
+  }
+}
+
+.indexGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.indexCard {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  
+  &.up {
+    border-left: 3px solid #00c853;
+    .indexPrice { color: #00c853; }
+    .indexChange { color: #00c853; }
+  }
+  
+  &.down {
+    border-left: 3px solid #ff5252;
+    .indexPrice { color: #ff5252; }
+    .indexChange { color: #ff5252; }
+  }
+  
+  .indexName {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 8px;
+  }
+  
+  .indexPrice {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  
+  .indexChange {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+// Portfolio Summary
+.portfolio {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.portfolioTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 16px;
+  
+  svg {
+    color: #00d4aa;
+  }
+}
+
+.portfolioGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.portfolioItem {
+  .portfolioLabel {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 4px;
+  }
+  
+  .portfolioValue {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+  }
+}
+
+.todayPL {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  
+  &.up {
+    background: rgba(0, 200, 83, 0.15);
+    color: #00c853;
+  }
+  
+  &.down {
+    background: rgba(255, 82, 82, 0.15);
+    color: #ff5252;
+  }
+}
+
+// Stock List
+.stockList {
+  .sectionTitle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 16px;
+    
+    svg {
+      color: #00d4aa;
+    }
+  }
+}
+
+.stockGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.stockCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(0, 212, 170, 0.3);
+  }
+}
+
+.stockHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  
+  .stockName {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+  }
+  
+  .stockCode {
+    font-size: 12px;
+    color: #666;
+  }
+}
+
+.stockPrice {
+  margin-bottom: 12px;
+  
+  .price {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  
+  .change {
+    font-size: 13px;
+    font-weight: 500;
+    
+    &.up { color: #00c853; }
+    &.down { color: #ff5252; }
+  }
+}
+
+.stockDetail {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 12px;
+  
+  .detailRow {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 4px;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.up { color: #00c853 !important; }
+.down { color: #ff5252 !important; }
+
+// Refresh Button
+.refreshBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-left: 12px;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 4px;
+  color: #888;
+  cursor: pointer;
+  transition: all 0.2s;
+  
+  &:hover:not(:disabled) {
+    background: rgba(0, 212, 170, 0.2);
+    color: #00d4aa;
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .spinning {
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.lastUpdate {
+  font-size: 12px;
+  color: #666;
+  margin-left: 8px;
+}
+
+// Sector Tabs
+.sectorTabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.sectorTab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  color: #888;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+  
+  &.active {
+    background: rgba(0, 212, 170, 0.15);
+    border-color: rgba(0, 212, 170, 0.4);
+    color: #00d4aa;
+  }
+  
+  span {
+    font-size: 12px;
+    font-weight: 500;
+  }
+}
